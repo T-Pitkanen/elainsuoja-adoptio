@@ -1,0 +1,49 @@
+services:
+  server-a:
+    build: ./server-a
+    ports:
+      - '3000:3000'
+    env_file: .env
+    environment:
+      DB_PATH: /data/animals.db
+      SERVER_B_URL: http://server-b:4000
+    volumes:
+      - db_data:/data
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "fetch('http://localhost:3000/health').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))",
+        ]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  server-b:
+    build: ./server-b
+    ports:
+      - '4000:4000'
+    # Lue API-avain .env-tiedostosta
+    env_file: .env
+    # Asetetaan tietokannan polku ympäristömuuttujaksi
+    environment:
+      DB_PATH: /data/animals.db
+    # Liitetään tietokantadata konttiin. Sama volume kuin A:ssa.
+    volumes:
+      - db_data:/data
+    # B käynnistyy vasta, kun A:n healthcheck on ok, eli kun A on luonut tietokannan
+    depends_on:
+      server-a:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    ports:
+      - '8080:80'
+    depends_on:
+      - server-a
+
+volumes:
+  db_data:
