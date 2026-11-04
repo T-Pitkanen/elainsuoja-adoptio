@@ -9,6 +9,8 @@ app.use(express.json());
 
 const PORT = 3000;
 
+const API_KEY = process.env.API_KEY;
+
 // Etsitään B:n osoite .env-tiedostosta tai käytetään oletusosoitetta
 const SERVER_B_URL = process.env.SERVER_B_URL || 'http://localhost:4000';
 
@@ -39,6 +41,83 @@ app.get('/health/server-b', async (req, res) => {
 	} catch (err) {
 		console.error('GET /health/server-b error:', err.message);
 		res.status(500).json({ error: 'Server B ei vastaa' });
+	}
+});
+
+// GET /animals
+app.get('/animals', (req, res) => {
+	try {
+		const animals = db.prepare('SELECT * FROM animals').all();
+		res.status(200).json(animals);
+	} catch (err) {
+		console.error(err);
+		res.status(500).json({ error: 'Palvelinvirhe' });
+	}
+});
+
+// GET /animals/:id
+app.get('/animals/:id', (req, res) => {
+	try {
+		const animal = db
+			.prepare('SELECT * FROM animals WHERE id = ?')
+			.get(req.params.id);
+		if (!animal) {
+			return res.status(404).json({ error: 'Eläintä ei löytynyt' });
+		}
+		res.json(animal);
+	} catch (err) {
+		console.error(err);
+		res.status(500).json({ error: 'Palvelinvirhe' });
+	}
+});
+
+// POST /animals/:id/adopt
+app.post('/animals/:id/adopt', async (req, res) => {
+	try {
+		const { applicant_name, email, phone, message } = req.body;
+
+		if (!applicant_name || !email) {
+			return res.status(400).json({ error: 'Puutteelliset hakemuksen tiedot' });
+		}
+
+		const animal = db
+			.prepare('SELECT * FROM animals WHERE id = ?')
+			.get(req.params.id);
+
+		if (!animal) {
+			return res.status(404).json({ error: 'Eläintä ei löytynyt' });
+		}
+
+		// Adoptiopyyntö B:lle
+		const response = await fetch(`${SERVER_B_URL}/adoptions`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json', 'X-API-Key': API_KEY },
+			body: JSON.stringify({
+				animal_id: animal.id,
+				applicant_name,
+				email,
+				phone,
+				message,
+			}),
+		});
+
+		// Eläin on jo adoptoitu
+		if (response.status === 409) {
+			return res.status(409).json({ error: 'Eläin on jo adoptoitu' });
+		}
+
+		// Onko vastaus ok?
+		if (!response.ok) {
+			throw new Error(`Server B vastasi: ${response.status}`);
+		}
+
+		// JSON:iksi muuttaminen
+		const data = await response.json();
+		res.status(201).json(data);
+		
+	} catch (err) {
+		console.error('POST /animals/:id/adopt error:', err.message);
+		res.status(500).json({ error: 'Palvelinvirhe' });
 	}
 });
 
