@@ -14,7 +14,6 @@ async function loadAnimals() {
 
 		const animals = await response.json();
 
-		// Jos eläimiä ei löydetä, tulee tämä viesti
 		if (animals.length === 0) {
 			message.textContent = 'Eläimiä ei löytynyt.';
 			return;
@@ -23,19 +22,34 @@ async function loadAnimals() {
 
 		// Jokaiselle eläimelle oma kortti
 		animals.forEach((animal) => {
-			const card = document.createElement('cards');
+			const card = document.createElement('div');
 			card.className = 'card';
 
 			const image =
 				animal.image_url || 'https://placehold.co/400x300?text=Ei+kuvaa';
 
-			card.innerHTML = `
-        <img src="${image}" alt="${animal.name}">
-        <h2>${animal.name}</h2>
-        <p>${animal.type}, ${animal.age} v</p>
-        <p class="status ${animal.status}">${animal.status === 'adopted' ? 'Adoptoitu' : 'Etsii kotia'}</p>
-        <a class="button" href="animal.html?id=${animal.id}">Katso lisää</a>
-      `;
+			const img = document.createElement('img');
+			img.src = image;
+			img.alt = animal.name;
+
+			const name = document.createElement('h2');
+			name.textContent = animal.name;
+
+			const info = document.createElement('p');
+			info.textContent = `${animal.type}, ${animal.age} v`;
+
+			const status = document.createElement('p');
+			status.className = 'status';
+			status.classList.add(animal.status);
+			status.textContent =
+				animal.status === 'adopted' ? 'Adoptoitu' : 'Etsii kotia';
+
+			const link = document.createElement('a');
+			link.className = 'button';
+			link.href = `animal.html?id=${encodeURIComponent(animal.id)}`;
+			link.textContent = 'Katso lisää';
+
+			card.append(img, name, info, status, link);
 			list.appendChild(card);
 		});
 	} catch (err) {
