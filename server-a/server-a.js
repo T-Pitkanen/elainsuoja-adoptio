@@ -1,10 +1,16 @@
 const path = require('node:path');
+
 require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
 
 const express = require('express');
+const cors = require('cors');
 const db = require('./database');
 
 const app = express();
+
+app.use(cors());
+app.use(express.json());
+
 app.use(express.json());
 
 const PORT = 3000;
@@ -114,7 +120,6 @@ app.post('/animals/:id/adopt', async (req, res) => {
 		// JSON:iksi muuttaminen
 		const data = await response.json();
 		res.status(201).json(data);
-		
 	} catch (err) {
 		console.error('POST /animals/:id/adopt error:', err.message);
 		res.status(500).json({ error: 'Palvelinvirhe' });
