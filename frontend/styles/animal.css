@@ -101,3 +101,90 @@
   line-height: 1.6;
   max-width: 70%;
 }
+
+
+
+/* Adoptio lomake */
+
+
+.adopt {
+  margin-top: 32px;
+  padding: 24px;
+  background: var(--bg);
+  border-radius: 24px;
+  box-shadow: 0 10px 24px rgba(31, 59, 51, 0.12);
+}
+
+.adopt h2 {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 28px;
+  margin-bottom: 16px;
+}
+
+#adopt-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 520px;
+}
+
+#adopt-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-weight: 700;
+}
+
+#adopt-form input,
+#adopt-form textarea {
+  font: inherit;
+  padding: 10px 12px;
+  border: 2px solid var(--dark-blue);
+  border-radius: 10px;
+  background: white;
+}
+
+#adopt-form input:focus,
+#adopt-form textarea:focus {
+  outline: 3px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.form-error {
+  color: var(--accent);
+  font-weight: 700;
+  min-height: 1.2em;
+}
+
+#adopt-form .button {
+  align-self: flex-start;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+}
+
+#adopt-form .button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+
+.thanks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+  padding: 48px 24px;
+  background: var(--bg);
+  border-radius: 24px;
+  box-shadow: 0 10px 24px rgba(31, 59, 51, 0.12);
+}
+
+.thanks h2 {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(28px, 4vw, 40px);
+}

@@ -23,6 +23,30 @@
 			<article id="animal" class="animal-detail"></article>
 		</main>
 
+		<section id="adopt-section" class="adopt" hidden>
+			<h2>Hae adoptiota</h2>
+			<form id="adopt-form">
+				<label
+					>Nimi *
+					<input type="text" name="applicant_name" required />
+				</label>
+				<label
+					>Sähköposti *
+					<input type="email" name="email" required />
+				</label>
+				<label
+					>Puhelin
+					<input type="tel" name="phone" />
+				</label>
+				<label
+					>Kerro itsestäsi ja kodistasi
+					<textarea name="message" rows="4"></textarea>
+				</label>
+				<p id="form-error" class="form-error" role="alert"></p>
+				<button type="submit" class="button">Lähetä hakemus</button>
+			</form>
+		</section>
+
 		<script src="scripts/animal.js"></script>
 	</body>
 </html>

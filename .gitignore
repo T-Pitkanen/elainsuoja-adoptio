@@ -26,3 +26,7 @@ data/
 *.db
 *.db-wal
 *.db-shm
+
+.impeccable/
+PRODUCT.md
+DESIGN.md

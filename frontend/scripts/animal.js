@@ -1,12 +1,13 @@
 const API_URL = 'http://localhost:3000';
 
+// Osoitteesta saatu eläimen id-parametri
+const params = new URLSearchParams(window.location.search);
+const id = params.get('id');
+
 // Yhden eläimen tiedot
 async function loadAnimal() {
 	const message = document.getElementById('message');
 	const container = document.getElementById('animal');
-
-	const params = new URLSearchParams(window.location.search);
-	const id = params.get('id');
 
 	if (!id) {
 		message.textContent = 'Eläintä ei valittu.';
@@ -80,10 +81,85 @@ async function loadAnimal() {
 		infoBox.append(name, facts, description);
 
 		container.replaceChildren(imageBox, infoBox);
+
+		showAdoptForm(animal);
 	} catch (err) {
 		console.error(err);
 		message.textContent = 'Eläimen haku epäonnistui.';
 	}
 }
+
+// Lomake adoptioon
+function showAdoptForm(animal) {
+	const section = document.getElementById('adopt-section');
+
+	if (animal.status === 'available') {
+		section.hidden = false;
+		section.querySelector('h2').textContent = `Hae adoptiota: ${animal.name}`;
+	}
+}
+
+async function sendApplication(event) {
+	// Estetään lomakkeen oletustoiminto
+	event.preventDefault();
+
+	const form = event.target;
+	const errorText = document.getElementById('form-error');
+	const button = form.querySelector('button');
+	errorText.textContent = '';
+
+	// Lomakkeen tiedot
+	const data = {
+		applicant_name: form.applicant_name.value.trim(),
+		email: form.email.value.trim(),
+		phone: form.phone.value.trim(),
+		message: form.message.value.trim(),
+	};
+
+	// Estetään tuplaklikkaus lähetyksen aikana
+	button.disabled = true;
+	button.textContent = 'Lähetetään...';
+
+	try {
+		// Sama tapa kuin Server A:n kutsussa B:lle, mutta ilman API-avainta
+		const response = await fetch(`${API_URL}/animals/${id}/adopt`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(data),
+		});
+
+		// Kiitos sivulle, jos lähetys onnistui
+		if (response.status === 201) {
+			window.location.href = `kiitos.html?name=${encodeURIComponent(data.applicant_name)}`;
+			return;
+		}
+
+		// Error message jokaiselle virheelle
+		if (response.status === 400) {
+			errorText.textContent = 'Täytä ainakin nimi ja sähköposti.';
+		} else if (response.status === 404) {
+			errorText.textContent = 'Eläintä ei löytynyt. Se on ehkä poistettu.';
+		} else if (response.status === 409) {
+			errorText.textContent =
+				'Tämä eläin on jo adoptoitu. Katso muita eläimiä etusivulta.';
+		} else {
+			errorText.textContent =
+				'Hakemuksen lähetys epäonnistui. Yritä hetken päästä uudelleen.';
+		}
+	} catch (err) {
+		console.error(err);
+		errorText.textContent =
+			'Palvelimeen ei saatu yhteyttä. Onko Server A käynnissä?';
+	} finally {
+		// Ajetaan aina
+		button.disabled = false;
+		button.textContent = 'Lähetä hakemus';
+	}
+}
+
+// Lomakkeen lähetys
+document
+	.getElementById('adopt-form')
+	.addEventListener('submit', sendApplication);
 
 loadAnimal();
