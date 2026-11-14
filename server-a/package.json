@@ -1,7 +1,7 @@
 {
 	"name": "server-a",
 	"version": "1.0.0",
-	"description": "Adoptiopalvelu",
+	"description": "Vaasan Eläinsuoja",
 	"main": "server-a.js",
 	"scripts": {
 		"start": "node server-a.js",
@@ -11,6 +11,8 @@
 		"better-sqlite3": "^13.0.3",
 		"cors": "^2.8.6",
 		"dotenv": "^16.4.7",
-		"express": "^4.21.2"
+		"express": "^4.21.2",
+		"js-yaml": "^5.5.0",
+		"swagger-ui-express": "^5.0.1"
 	}
 }

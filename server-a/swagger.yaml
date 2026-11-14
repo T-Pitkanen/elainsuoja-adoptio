@@ -1,0 +1,211 @@
+openapi: 3.0.4
+
+info:
+  title: Vaasan Eläinsuoja API
+  version: 1.0.0
+  description: REST API eläinsuojan eläimille ja adoptiohakemuksille. Server A välittää hakemukset Server B:lle.
+
+servers:
+  - url: http://localhost:3000
+    description: Kehityspalvelin
+
+paths:
+  /health:
+    get:
+      summary: Server A:n tila
+      description: Kertoo, toimiiko Server A ja montako eläintä tietokannassa on
+      tags:
+        - Health
+      responses:
+        '200':
+          description: Palvelin toimii
+        '500':
+          description: Palvelinvirhe
+
+  /health/server-b:
+    get:
+      summary: Server B:n tila
+      description: Server A kysyy Server B:n tilan ja palauttaa sen
+      tags:
+        - Health
+      responses:
+        '200':
+          description: Server B toimii
+        '500':
+          description: Server B ei vastaa
+
+  /animals:
+    get:
+      summary: Hae kaikki eläimet
+      description: Palauttaa listan kaikista eläinsuojan eläimistä
+      tags:
+        - Animals
+      responses:
+        '200':
+          description: Lista eläimistä
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Animal'
+        '500':
+          description: Palvelinvirhe
+
+  /animals/{id}:
+    get:
+      summary: Hae yksi eläin
+      description: Palauttaa yhden eläimen tiedot ID:n perusteella
+      tags:
+        - Animals
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Eläimen ID
+          schema:
+            type: integer
+          example: 1
+      responses:
+        '200':
+          description: Eläimen tiedot
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Animal'
+        '404':
+          description: Eläintä ei löytynyt
+        '500':
+          description: Palvelinvirhe
+
+  /animals/{id}/adopt:
+    post:
+      summary: Lähetä adoptiohakemus
+      description: Tarkistaa eläimen ja välittää hakemuksen Server B:lle, joka tallentaa sen
+      tags:
+        - Adoptions
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Eläimen ID
+          schema:
+            type: integer
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - applicant_name
+                - email
+              properties:
+                applicant_name:
+                  type: string
+                  example: Matti Meikäläinen
+                email:
+                  type: string
+                  example: matti@example.com
+                phone:
+                  type: string
+                  example: '0401234567'
+                message:
+                  type: string
+                  example: Meillä on iso piha.
+      responses:
+        '201':
+          description: Hakemus tallennettu onnistuneesti
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Adoption'
+        '400':
+          description: Virheellinen pyyntö (nimi tai sähköposti puuttuu)
+        '404':
+          description: Eläintä ei löytynyt
+        '409':
+          description: Eläin on jo adoptoitu
+        '503':
+          description: Server B ei ole käytettävissä
+        '500':
+          description: Palvelinvirhe
+
+components:
+  schemas:
+    Animal:
+      type: object
+      required:
+        - id
+        - name
+        - type
+        - status
+      properties:
+        id:
+          type: integer
+          description: Eläimen yksilöllinen tunniste
+          example: 1
+        name:
+          type: string
+          description: Eläimen nimi
+          example: Muru
+        type:
+          type: string
+          description: Eläimen laji
+          example: kissa
+        age:
+          type: integer
+          description: Eläimen ikä vuosina
+          example: 3
+        breed:
+          type: string
+          description: Rotu
+          example: maatiainen
+        image_url:
+          type: string
+          description: Kuvan osoite
+          example: images/muru.jpg
+        likes:
+          type: integer
+          description: Tykkäysten määrä
+          example: 0
+        status:
+          type: string
+          description: Onko eläin vapaana vai jo adoptoitu
+          enum:
+            - available
+            - adopted
+          example: available
+        description:
+          type: string
+          description: Eläimen kuvaus
+          example: Rauhallinen sylikissa.
+
+    Adoption:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Hakemuksen tunniste
+          example: 1
+        animal_id:
+          type: integer
+          description: Eläimen ID
+          example: 1
+        applicant_name:
+          type: string
+          example: Matti Meikäläinen
+        email:
+          type: string
+          example: matti@example.com
+        phone:
+          type: string
+          example: '0401234567'
+        message:
+          type: string
+          example: Meillä on iso piha.
+        created_at:
+          type: string
+          description: Milloin hakemus tehtiin
+          example: '2026-11-14 18:30:00'

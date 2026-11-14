@@ -26,7 +26,7 @@ db.exec(`
     image_url   TEXT,
     likes       INTEGER NOT NULL DEFAULT 0,
     status      TEXT NOT NULL DEFAULT 'available' CHECK (status IN ('available', 'adopted')),
-    description TEXT
+    description TEXT,
   )
 `);
 

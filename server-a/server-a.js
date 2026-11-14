@@ -5,12 +5,13 @@ require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
 const express = require('express');
 const cors = require('cors');
 const db = require('./database');
+const swaggerUi = require('swagger-ui-express');
+const yaml = require('js-yaml');
+const fs = require('node:fs');
 
 const app = express();
 
 app.use(cors());
-app.use(express.json());
-
 app.use(express.json());
 
 const PORT = 3000;
@@ -77,6 +78,48 @@ app.get('/animals/:id', (req, res) => {
 	}
 });
 
+// POST /animals/:id/like
+app.post('/animals/:id/like', (req, res) => {
+	try {
+		const result = db
+			.prepare('UPDATE animals SET likes = likes + 1 WHERE id = ?')
+			.run(req.params.id);
+
+		if (result.changes === 0) {
+			return res.status(404).json({ error: 'Eläintä ei löytynyt' });
+		}
+
+		const animal = db
+			.prepare('SELECT id, likes FROM animals WHERE id = ?')
+			.get(req.params.id);
+		res.status(200).json(animal);
+	} catch (err) {
+		console.error('POST /animals/:id/like error:', err.message);
+		res.status(500).json({ error: 'Palvelinvirhe' });
+	}
+});
+
+// DELETE /animals/:id/like
+app.delete('/animals/:id/like', (req, res) => {
+	try {
+		const result = db
+			.prepare('UPDATE animals SET likes = MAX(likes - 1, 0) WHERE id = ?')
+			.run(req.params.id);
+
+		if (result.changes === 0) {
+			return res.status(404).json({ error: 'Eläintä ei löytynyt' });
+		}
+
+		const animal = db
+			.prepare('SELECT id, likes FROM animals WHERE id = ?')
+			.get(req.params.id);
+		res.status(200).json(animal);
+	} catch (err) {
+		console.error('DELETE /animals/:id/like error:', err.message);
+		res.status(500).json({ error: 'Palvelinvirhe' });
+	}
+});
+
 // POST /animals/:id/adopt
 app.post('/animals/:id/adopt', async (req, res) => {
 	try {
@@ -125,6 +168,13 @@ app.post('/animals/:id/adopt', async (req, res) => {
 		res.status(500).json({ error: 'Palvelinvirhe' });
 	}
 });
+
+// Swagger-dokumentaatio
+const swaggerDocument = yaml.load(
+	fs.readFileSync(path.join(__dirname, 'swagger.yaml'), 'utf8'),
+);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.listen(PORT, () => {
 	console.log(`Server A: http://localhost:${PORT}`);

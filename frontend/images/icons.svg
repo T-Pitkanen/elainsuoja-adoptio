@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+	<!-- Eläinten piirrokset, käytetään kun eläimellä ei ole kuvaa -->
+	<symbol id="cat" viewBox="0 0 120 104">
+		<g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+			<path d="M22 104 C14 86 14 64 22 48 L18 12 L46 30 C55 27 65 27 74 30 L102 12 L98 48 C106 64 106 86 98 104" />
+			<ellipse cx="45" cy="62" rx="4" ry="6" fill="currentColor" stroke="none" />
+			<ellipse cx="75" cy="62" rx="4" ry="6" fill="currentColor" stroke="none" />
+			<path d="M55 74 L65 74 L60 80 Z" fill="currentColor" />
+			<path d="M60 80 Q54 88 47 84 M60 80 Q66 88 73 84" />
+			<path d="M40 76 L10 70 M40 82 L12 88 M80 76 L110 70 M80 82 L108 88" />
+		</g>
+	</symbol>
+	<symbol id="dog" viewBox="0 0 120 104">
+		<g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+			<path d="M34 104 C30 92 30 80 31 70 L32 34 C32 20 45 13 60 13 C75 13 88 20 88 34 L89 70 C90 80 90 92 86 104" />
+			<path d="M36 26 C20 22 8 42 12 66 C22 70 30 60 33 48" />
+			<path d="M84 26 C100 22 112 42 108 66 C98 70 90 60 87 48" />
+			<circle cx="47" cy="52" r="4.2" fill="currentColor" stroke="none" />
+			<circle cx="73" cy="52" r="4.2" fill="currentColor" stroke="none" />
+			<ellipse cx="60" cy="70" rx="7" ry="5" fill="currentColor" />
+			<path d="M60 75 L60 80 M49 79 Q54.5 86 60 80 Q65.5 86 71 79" />
+		</g>
+	</symbol>
+
+	<!-- Pienet lajikuvakkeet suodatinnappeihin (luettavia 20px koossa) -->
+	<symbol id="cat-small" viewBox="0 0 24 24">
+		<g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+			<path d="M5 20.5 C3.8 16.5 4 12.5 5.6 9.8 L5 3.5 L10 7 C11.3 6.6 12.7 6.6 14 7 L19 3.5 L18.4 9.8 C20 12.5 20.2 16.5 19 20.5" />
+		</g>
+		<circle cx="9.3" cy="13.6" r="1.4" fill="currentColor" />
+		<circle cx="14.7" cy="13.6" r="1.4" fill="currentColor" />
+	</symbol>
+	<symbol id="dog-small" viewBox="0 0 24 24">
+		<g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+			<path d="M7.6 20.5 C7.1 17.5 7.1 14.5 7.3 12 L7.4 7 C7.4 4.6 9.5 3.5 12 3.5 C14.5 3.5 16.6 4.6 16.6 7 L16.7 12 C16.9 14.5 16.9 17.5 16.4 20.5" />
+			<path d="M7.8 5.6 C4.6 4.9 2.6 8.8 3.3 13.4 C5.2 14.1 6.8 12.4 7.3 10.2" />
+			<path d="M16.2 5.6 C19.4 4.9 21.4 8.8 20.7 13.4 C18.8 14.1 17.2 12.4 16.7 10.2" />
+		</g>
+		<circle cx="10" cy="10.8" r="1.25" fill="currentColor" />
+		<circle cx="14" cy="10.8" r="1.25" fill="currentColor" />
+		<ellipse cx="12" cy="15.3" rx="2" ry="1.4" fill="currentColor" />
+	</symbol>
+
+	<!-- Logo: talo, jossa kissan korvat ja ovi -->
+	<symbol id="logo" viewBox="0 0 40 40">
+		<path d="M6 36 V17 L10 7 L15 13 H25 L30 7 L34 17 V36 Z" fill="#1F5C4A" />
+		<path d="M15 36 V27 C15 24 17.2 22 20 22 C22.8 22 25 24 25 27 V36 Z" fill="#E9A23B" />
+		<circle cx="15" cy="19" r="1.7" fill="#fff" />
+		<circle cx="25" cy="19" r="1.7" fill="#fff" />
+	</symbol>
+
+	<!-- Footerin päällä istuva kissa -->
+	<symbol id="sitting-cat" viewBox="0 0 64 64">
+		<g fill="currentColor">
+			<path d="M20 64 C14 50 18 36 30 34 C42 32 50 46 46 64 Z" />
+			<circle cx="30" cy="24" r="11" />
+			<path d="M20 20 L21 8 L28 15 Z M40 20 L39 8 L32 15 Z" />
+			<path d="M44 60 C56 62 62 54 58 44 C57 41 54 41 54 44 C56 52 52 56 44 56 Z" />
+		</g>
+	</symbol>
+
+	<!-- Pienet ikonit -->
+	<symbol id="paw" viewBox="0 0 24 24">
+		<g fill="currentColor">
+			<ellipse cx="12" cy="16" rx="5" ry="4.2" />
+			<circle cx="5.5" cy="10" r="2.2" />
+			<circle cx="9.5" cy="6" r="2.2" />
+			<circle cx="14.5" cy="6" r="2.2" />
+			<circle cx="18.5" cy="10" r="2.2" />
+		</g>
+	</symbol>
+	<symbol id="heart" viewBox="0 0 24 24">
+		<path d="M12 20.5 C6 16.4 3 13.2 3 9.4 A4.4 4.4 0 0 1 12 6.8 A4.4 4.4 0 0 1 21 9.4 C21 13.2 18 16.4 12 20.5 Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+	</symbol>
+	<symbol id="check" viewBox="0 0 24 24">
+		<path d="M5 12.5 L10 17.5 L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+	</symbol>
+	<symbol id="calendar" viewBox="0 0 24 24">
+		<g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+			<rect x="3.5" y="5" width="17" height="15" rx="2.5" />
+			<path d="M3.5 10h17M8 3v4M16 3v4" />
+		</g>
+	</symbol>
+	<symbol id="tag" viewBox="0 0 24 24">
+		<g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
+			<path d="M3.5 12.5V4.5a1 1 0 0 1 1-1h8l8 8-9 9z" />
+			<circle cx="8.5" cy="8.5" r="1.6" fill="currentColor" />
+		</g>
+	</symbol>
+	<symbol id="shield" viewBox="0 0 24 24">
+		<path d="M12 3 L19.5 6 V11.5 C19.5 16 16.3 19.4 12 21 C7.7 19.4 4.5 16 4.5 11.5 V6 Z M8.5 12 L11 14.5 L15.5 9.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+	</symbol>
+	<symbol id="chat" viewBox="0 0 24 24">
+		<path d="M4 5.5h16v10H10l-4.5 3.5V15.5H4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+	</symbol>
+	<symbol id="home" viewBox="0 0 24 24">
+		<path d="M4 11 L12 4 L20 11 V20 H14.5 V14.5 H9.5 V20 H4 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+	</symbol>
+	<symbol id="alert" viewBox="0 0 24 24">
+		<g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+			<circle cx="12" cy="12" r="9" />
+			<path d="M12 7.5v5.5M12 16.5v.5" />
+		</g>
+	</symbol>
+</svg>
