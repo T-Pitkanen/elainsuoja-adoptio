@@ -59,13 +59,7 @@ paths:
       tags:
         - Animals
       parameters:
-        - name: id
-          in: path
-          required: true
-          description: Eläimen ID
-          schema:
-            type: integer
-          example: 1
+        - $ref: '#/components/parameters/AnimalId'
       responses:
         '200':
           description: Eläimen tiedot
@@ -78,6 +72,44 @@ paths:
         '500':
           description: Palvelinvirhe
 
+  /animals/{id}/like:
+    post:
+      summary: Tykkää eläimestä
+      description: Kasvattaa eläimen tykkäysten määrää yhdellä
+      tags:
+        - Animals
+      parameters:
+        - $ref: '#/components/parameters/AnimalId'
+      responses:
+        '200':
+          description: Uusi tykkäysten määrä
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Likes'
+        '404':
+          description: Eläintä ei löytynyt
+        '500':
+          description: Palvelinvirhe
+    delete:
+      summary: Peru tykkäys
+      description: Vähentää eläimen tykkäysten määrää yhdellä, ei kuitenkaan alle nollan
+      tags:
+        - Animals
+      parameters:
+        - $ref: '#/components/parameters/AnimalId'
+      responses:
+        '200':
+          description: Uusi tykkäysten määrä
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Likes'
+        '404':
+          description: Eläintä ei löytynyt
+        '500':
+          description: Palvelinvirhe
+
   /animals/{id}/adopt:
     post:
       summary: Lähetä adoptiohakemus
@@ -85,13 +117,7 @@ paths:
       tags:
         - Adoptions
       parameters:
-        - name: id
-          in: path
-          required: true
-          description: Eläimen ID
-          schema:
-            type: integer
-          example: 1
+        - $ref: '#/components/parameters/AnimalId'
       requestBody:
         required: true
         content:
@@ -133,6 +159,16 @@ paths:
           description: Palvelinvirhe
 
 components:
+  parameters:
+    AnimalId:
+      name: id
+      in: path
+      required: true
+      description: Eläimen ID
+      schema:
+        type: integer
+      example: 1
+
   schemas:
     Animal:
       type: object
@@ -149,11 +185,14 @@ components:
         name:
           type: string
           description: Eläimen nimi
-          example: Muru
+          example: Sosuli
         type:
           type: string
           description: Eläimen laji
-          example: kissa
+          enum:
+            - cat
+            - dog
+          example: cat
         age:
           type: integer
           description: Eläimen ikä vuosina
@@ -161,11 +200,11 @@ components:
         breed:
           type: string
           description: Rotu
-          example: maatiainen
+          example: Maine Coon
         image_url:
           type: string
-          description: Kuvan osoite
-          example: images/muru.jpg
+          description: Kuvan osoite frontendin juuresta
+          example: images/animals/sosuli.jpg
         likes:
           type: integer
           description: Tykkäysten määrä
@@ -181,6 +220,16 @@ components:
           type: string
           description: Eläimen kuvaus
           example: Rauhallinen sylikissa.
+
+    Likes:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        likes:
+          type: integer
+          example: 3
 
     Adoption:
       type: object
