@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="fi">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Kiitos hakemuksesta | Vaasan Eläinsuoja</title>
+		<meta name="description" content="Adoptiohakemuksesi on vastaanotettu. Näin hakemus etenee." />
+
+		<link rel="icon" href="images/favicon.svg" type="image/svg+xml" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" />
+		<link rel="stylesheet" href="styles/style.css" />
+		<link rel="stylesheet" href="styles/kiitos.css" />
+	</head>
+	<body>
+
+		<header class="header">
+			<div class="container">
+				<a class="logo" href="index.html">
+					<svg width="38" height="38"><use href="images/icons.svg#logo" /></svg>
+					<span>Vaasan Eläinsuoja<small>Kodittomien eläinten puolesta</small></span>
+				</a>
+				<nav class="nav">
+					<a href="index.html#elaimet">Eläimet</a>
+					<a href="#yhteys">Yhteystiedot</a>
+				</nav>
+			</div>
+		</header>
+
+		<main id="sisalto">
+			<div class="container thanks">
+				<div class="thanks-animal" id="thanks-animal" hidden></div>
+				<h1 id="thanks-title">Adoptiohakemus</h1>
+				<p id="thanks-lead">Tämä sivu näytetään, kun olet lähettänyt hakemuksen eläimen omalta sivulta.</p>
+
+				<div class="next" id="thanks-steps" hidden>
+					<h2>Hakemuksen vaiheet</h2>
+					<ol class="tracker">
+						<li class="done">
+							<span class="number"><svg width="16" height="16"><use href="images/icons.svg#check" /></svg></span>
+							<div><b>Valitse eläin</b><span id="step-chosen">Eläin on valittu.</span></div>
+						</li>
+						<li class="done">
+							<span class="number"><svg width="16" height="16"><use href="images/icons.svg#check" /></svg></span>
+							<div><b>Lähetä hakemus</b><span>Hakemus on tallessa.</span></div>
+						</li>
+						<li class="now">
+							<span class="number">3</span>
+							<div><b>Tapaaminen</b><span>Otamme yhteyttä sähköpostilla ja sovimme tapaamisen.</span></div>
+						</li>
+						<li>
+							<span class="number">4</span>
+							<div><b>Kotiin</b><span>Teemme luovutussopimuksen, ja eläin muuttaa luoksesi.</span></div>
+						</li>
+					</ol>
+				</div>
+
+				<a class="button button-ghost" id="thanks-back" href="index.html#elaimet">Katso kotia etsivät eläimet</a>
+			</div>
+		</main>
+
+		<footer class="site-footer" id="yhteys">
+			<svg class="footer-cat" viewBox="0 0 64 64"><use href="images/icons.svg#sitting-cat" /></svg>
+			<div class="container">
+				<div class="footer-logo">
+					<svg width="56" height="56"><use href="images/icons.svg#logo" /></svg>
+				</div>
+				<div>
+					<h2>Vaasan Eläinsuoja</h2>
+					<p>Pieni paikallinen eläinsuoja, joka etsii kodittomille kissoille ja koirille uusia koteja.</p>
+				</div>
+				<div>
+					<h2>Yhteystiedot</h2>
+					<ul>
+						<li>Lemmikkikatu 15, 65100 Vaasa</li>
+						<li>info@elainsuoja.fi</li>
+					</ul>
+				</div>
+			</div>
+		</footer>
+
+		<script src="scripts/common.js"></script>
+		<script src="scripts/kiitos.js"></script>
+	</body>
+</html>

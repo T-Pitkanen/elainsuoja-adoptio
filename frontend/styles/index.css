@@ -1,0 +1,380 @@
+.hero::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	height: var(--wave-height);
+	pointer-events: none;
+	-webkit-mask: var(--wave-down) center / 100% 100% no-repeat;
+	mask: var(--wave-down) center / 100% 100% no-repeat;
+	top: 100%;
+	background: var(--bg-hero);
+}
+
+.hero {
+	position: relative;
+	background: var(--bg-hero);
+	color: var(--text-on-hero);
+}
+
+.hero :focus-visible {
+	outline-color: var(--text-on-dark);
+}
+
+.hero .container {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	align-items: center;
+	gap: 2.5rem;
+	padding-block: 3.5rem 3rem;
+}
+
+.paw-trail {
+	position: absolute;
+	left: 0;
+	bottom: -1.5rem;
+	width: 60%;
+	height: auto;
+	color: rgba(255, 255, 255, 0.16);
+	pointer-events: none;
+}
+
+.title-row {
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+	gap: 1.25rem;
+}
+
+.title-row svg {
+	width: 3.5rem;
+	height: auto;
+	color: var(--illustration);
+}
+
+.hero .container > div {
+	flex: 1.15 1 0;
+	min-width: 0;
+}
+
+.hero h1 {
+	font-size: clamp(2.125rem, 4.6vw, 3.25rem);
+	font-weight: 800;
+	line-height: 1.1;
+	color: var(--text-on-dark);
+	text-wrap: balance;
+}
+
+.hero p {
+	margin-top: 1rem;
+	max-width: 46ch;
+	font-size: 1.125rem;
+}
+
+.hero-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+	margin-top: 1.75rem;
+}
+
+.newest {
+	position: relative;
+	display: flex;
+	flex: 1 1 0;
+	flex-direction: column;
+	min-width: 0;
+	border-radius: var(--radius-lg);
+	background: var(--bg-card);
+	color: var(--text-body);
+	box-shadow: 0 1rem 2.5rem rgba(40, 20, 26, 0.25);
+	transition: translate 0.25s ease;
+}
+
+.newest:hover {
+	translate: 0 -1px;
+}
+
+.newest .picture {
+	aspect-ratio: 16 / 9;
+	border-radius: var(--radius-lg) var(--radius-lg) 55% 45% / var(--radius-lg) var(--radius-lg) 14% 9%;
+}
+
+.sticker {
+	position: absolute;
+	top: -1.5rem;
+	right: -1.125rem;
+	z-index: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 6.25rem;
+	height: 6.25rem;
+	border-radius: 50%;
+	background: var(--highlight);
+	color: var(--text-heading);
+	font-size: 0.9375rem;
+	font-weight: 800;
+	line-height: 1.15;
+	text-align: center;
+	rotate: -10deg;
+	box-shadow: 0 0.25rem 0.625rem rgba(40, 20, 26, 0.2);
+	transition: rotate 0.25s ease;
+}
+
+.newest:hover .sticker {
+	rotate: -8deg;
+}
+
+.newest.is-loading .sticker {
+	visibility: hidden;
+}
+
+.newest .picture .drawing {
+	width: 42%;
+}
+
+.newest-body {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	padding: 1.125rem 1.5rem 1.5rem;
+}
+
+.newest-name {
+	font-size: 1.625rem;
+	font-weight: 800;
+	color: var(--text-heading);
+}
+
+.newest-desc {
+	margin-top: 0.375rem;
+	font-size: 1.0625rem;
+}
+
+.newest.is-loading {
+	pointer-events: none;
+}
+
+.newest.is-loading .picture {
+	background: var(--bg-section);
+}
+
+.newest.is-loading .newest-body span {
+	display: block;
+	height: 0.875rem;
+	border-radius: 0.375rem;
+	background: var(--bg-section);
+}
+
+.newest.is-loading .newest-name {
+	width: 40%;
+	height: 1.5rem;
+}
+
+.newest.is-loading .newest-desc {
+	width: 65%;
+}
+
+.hero+.section {
+	padding-top: calc(3.5rem + var(--wave-height));
+}
+
+.filters {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: 0.75rem 1rem;
+	margin-bottom: 2rem;
+}
+
+.segments {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+}
+
+.segments button {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	min-height: 2.75rem;
+	padding: 0.5rem 1.125rem;
+	border: 1px solid var(--border-input);
+	border-radius: var(--radius-sm);
+	background: var(--bg-card);
+	color: var(--text-body);
+	font: inherit;
+	font-size: 0.9375rem;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.segments button:hover {
+	border-color: var(--accent);
+}
+
+.segments button.is-active {
+	background: var(--accent);
+	border-color: var(--accent);
+	color: var(--text-on-dark);
+}
+
+.segments .count {
+	font-weight: 600;
+	font-variant-numeric: tabular-nums;
+	opacity: 0.75;
+}
+
+.select {
+	position: relative;
+}
+
+.select select {
+	appearance: none;
+	min-height: 2.75rem;
+	padding: 0.5rem 2.5rem 0.5rem 1.125rem;
+	border: 1px solid var(--border-input);
+	border-radius: var(--radius-sm);
+	background: var(--bg-card);
+	color: var(--text-body);
+	font: inherit;
+	font-size: 0.9375rem;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.select::after {
+	content: '';
+	position: absolute;
+	right: 1.125rem;
+	top: 50%;
+	width: 0.5rem;
+	height: 0.5rem;
+	border-right: 2px solid var(--text-paragraph);
+	border-bottom: 2px solid var(--text-paragraph);
+	translate: 0 -70%;
+	rotate: 45deg;
+	pointer-events: none;
+}
+
+.switch {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.625rem;
+	min-height: 2.75rem;
+	font-size: 0.9375rem;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.switch input {
+	position: relative;
+	appearance: none;
+	width: 2.625rem;
+	height: 1.5rem;
+	border-radius: var(--radius-sm);
+	background: var(--border-input);
+	cursor: pointer;
+	transition: background 0.2s ease;
+}
+
+.switch input::after {
+	content: '';
+	position: absolute;
+	left: 0.1875rem;
+	top: 0.1875rem;
+	width: 1.125rem;
+	height: 1.125rem;
+	border-radius: 0.25rem;
+	background: var(--bg-card);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+	transition: translate 0.2s ease;
+}
+
+.switch input:checked {
+	background: var(--accent);
+}
+
+.switch input:checked::after {
+	translate: 1.125rem 0;
+}
+
+.skeleton .picture {
+	border-radius: 0 0 55% 45% / 0 0 16% 10%;
+	background: var(--bg-section);
+}
+
+.skeleton {
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	background: var(--bg-card);
+	box-shadow: var(--shadow-card);
+}
+
+.skeleton .card-body {
+	gap: 0.625rem;
+}
+
+.skeleton .bar {
+	width: 100%;
+	height: 0.875rem;
+	border-radius: 0.375rem;
+	background: var(--bg-section);
+}
+
+.skeleton .bar:first-child {
+	width: 55%;
+	height: 1.25rem;
+}
+
+.skeleton .bar:nth-child(2) {
+	width: 75%;
+}
+
+.skeleton .bar:nth-child(3) {
+	width: 40%;
+}
+
+.skeleton .picture,
+.skeleton .bar {
+	animation: skeleton-pulse 1.4s ease-in-out infinite alternate;
+}
+
+@keyframes skeleton-pulse {
+	from {
+		opacity: 1;
+	}
+
+	to {
+		opacity: 0.55;
+	}
+}
+
+.notice {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.75rem;
+	padding: 2rem 1.5rem;
+	border-radius: var(--radius-lg);
+	background: var(--bg-section);
+	text-align: center;
+}
+
+.notice:empty {
+	display: none;
+}
+
+.notice-drawing {
+	width: 7.5rem;
+	height: 4.5rem;
+	color: var(--illustration);
+}
+
+.notice b {
+	font-size: 1.125rem;
+	color: var(--text-heading);
+}

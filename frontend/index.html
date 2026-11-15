@@ -3,24 +3,187 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>Vaasan Eläinsuoja</title>
+		<title>Kotia etsivät eläimet | Vaasan Eläinsuoja</title>
+		<meta
+			name="description"
+			content="Vaasan Eläinsuojan kissat ja koirat etsivät uutta kotia. Tutustu eläimiin ja hae adoptiota."
+		/>
+		<link rel="icon" href="images/favicon.svg" type="image/svg+xml" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
 			rel="stylesheet"
-			href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;700&display=swap"
+			href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap"
 		/>
 		<link rel="stylesheet" href="styles/style.css" />
+		<link rel="stylesheet" href="styles/index.css" />
 	</head>
 	<body>
-		<header>
-			<h1>Vaasan Eläinsuoja</h1>
+		<header class="header">
+			<div class="container">
+				<a class="logo" href="index.html">
+					<svg width="38" height="38">
+						<use href="images/icons.svg#logo" />
+					</svg>
+					<span
+						>Vaasan Eläinsuoja<small>Kodittomien eläinten puolesta</small></span
+					>
+				</a>
+				<nav class="nav">
+					<a href="index.html#elaimet" class="is-current">Eläimet</a>
+					<a href="#yhteys">Yhteystiedot</a>
+				</nav>
+			</div>
 		</header>
 
 		<main>
-			<p id="message">Ladataan eläimiä...</p>
-			<div id="animals" class="container"></div>
+			<section class="hero">
+				<svg class="paw-trail" viewBox="0 0 940 260" aria-hidden="true">
+					<use href="images/icons.svg#paw" x="47" y="153" width="50" height="50" transform="rotate(95 72 178)" />
+					<use href="images/icons.svg#paw" x="165" y="202" width="50" height="50" transform="rotate(90 190 227)" />
+					<use href="images/icons.svg#paw" x="289" y="152" width="50" height="50" transform="rotate(85 314 177)" />
+					<use href="images/icons.svg#paw" x="426" y="179" width="50" height="50" transform="rotate(81 451 204)" />
+					<use href="images/icons.svg#paw" x="556" y="109" width="50" height="50" transform="rotate(77 581 134)" />
+					<use href="images/icons.svg#paw" x="711" y="114" width="50" height="50" transform="rotate(74 736 139)" />
+					<use href="images/icons.svg#paw" x="848" y="24" width="50" height="50" transform="rotate(71 873 49)" />
+				</svg>
+				<div class="container">
+					<div>
+						<h1 id="hero-title">Täällä tassut odottavat omaa ihmistään</h1>
+						<p>
+							Kissamme ja koiramme kaipaavat syliä, rapsutuksia ja turvallista
+							kotia. Löytyisikö sinulta tilaa yhdelle karvakaverille?
+						</p>
+						<div class="hero-actions">
+							<a class="button button-primary" href="#elaimet"
+								>Tutustu eläimiin</a
+							>
+						</div>
+					</div>
+					<a class="newest is-loading" id="newest" href="#elaimet">
+						<span class="sticker">Uusin<br />tulokas</span>
+						<div class="picture"></div>
+						<div class="newest-body">
+							<span class="newest-name"></span>
+							<span class="newest-desc"></span>
+						</div>
+					</a>
+				</div>
+			</section>
+
+			<section class="section" id="elaimet">
+				<div class="container">
+					<div class="section-title">
+						<div class="title-row">
+							<svg viewBox="0 0 120 104" aria-hidden="true">
+								<use href="images/icons.svg#cat" />
+							</svg>
+							<h2 id="animals-title">Kotia etsivät eläimet</h2>
+							<svg viewBox="0 0 120 104" aria-hidden="true">
+								<use href="images/icons.svg#dog" />
+							</svg>
+						</div>
+						<p id="result-line" class="status-message">Ladataan eläimiä...</p>
+					</div>
+
+					<div class="filters" id="filters" hidden>
+						<div class="segments">
+							<button type="button" data-type="all" class="is-active">
+								Kaikki <span class="count" data-count="all"></span>
+							</button>
+							<button type="button" data-type="cat">
+								<svg width="20" height="20">
+									<use href="images/icons.svg#cat-small" />
+								</svg>
+								Kissat <span class="count" data-count="cat"></span>
+							</button>
+							<button type="button" data-type="dog">
+								<svg width="20" height="20">
+									<use href="images/icons.svg#dog-small" />
+								</svg>
+								Koirat <span class="count" data-count="dog"></span>
+							</button>
+						</div>
+						<label class="select">
+							<select id="stage">
+								<option value="all">Kaikki iät</option>
+								<option value="pentu">Pentu (alle 1 v)</option>
+								<option value="nuori">Nuori (1–2 v)</option>
+								<option value="aikuinen">Aikuinen (3–7 v)</option>
+								<option value="seniori">Seniori (8 v+)</option>
+							</select>
+						</label>
+						<label class="switch"
+							><input type="checkbox" id="show-adopted" />Näytä myös
+							varatut</label
+						>
+					</div>
+
+					<div class="grid" id="animals">
+						<div class="skeleton">
+							<div class="picture"></div>
+							<div class="card-body">
+								<div class="bar"></div>
+								<div class="bar"></div>
+								<div class="bar"></div>
+							</div>
+						</div>
+						<div class="skeleton">
+							<div class="picture"></div>
+							<div class="card-body">
+								<div class="bar"></div>
+								<div class="bar"></div>
+								<div class="bar"></div>
+							</div>
+						</div>
+						<div class="skeleton">
+							<div class="picture"></div>
+							<div class="card-body">
+								<div class="bar"></div>
+								<div class="bar"></div>
+								<div class="bar"></div>
+							</div>
+						</div>
+						<div class="skeleton">
+							<div class="picture"></div>
+							<div class="card-body">
+								<div class="bar"></div>
+								<div class="bar"></div>
+								<div class="bar"></div>
+							</div>
+						</div>
+					</div>
+					<div class="notice" id="notice"></div>
+				</div>
+			</section>
 		</main>
 
+		<footer class="site-footer" id="yhteys">
+			<svg class="footer-cat" viewBox="0 0 64 64">
+				<use href="images/icons.svg#sitting-cat" />
+			</svg>
+			<div class="container">
+				<div class="footer-logo">
+					<svg width="56" height="56"><use href="images/icons.svg#logo" /></svg>
+				</div>
+				<div>
+					<h2>Vaasan Eläinsuoja</h2>
+					<p>
+						Pieni paikallinen eläinsuoja, joka etsii kodittomille kissoille ja
+						koirille uusia koteja.
+					</p>
+				</div>
+				<div>
+					<h2>Yhteystiedot</h2>
+					<ul>
+						<li>Lemmikkikatu 15, 65100 Vaasa</li>
+						<li>info@elainsuoja.fi</li>
+					</ul>
+				</div>
+			</div>
+		</footer>
+
+		<script src="scripts/common.js"></script>
 		<script src="scripts/script.js"></script>
 	</body>
 </html>

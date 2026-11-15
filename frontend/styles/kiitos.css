@@ -1,0 +1,130 @@
+.tracker {
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+	list-style: none;
+}
+
+.tracker li {
+	display: flex;
+	gap: 1rem;
+}
+
+.tracker .number {
+	display: flex;
+	flex: none;
+	align-items: center;
+	justify-content: center;
+	width: 2rem;
+	height: 2rem;
+	border: 2px solid var(--accent);
+	border-radius: 50%;
+	background: var(--bg-card);
+	color: var(--accent);
+	font-size: 0.875rem;
+	font-weight: 800;
+}
+
+.tracker .done .number {
+	background: var(--accent);
+	color: var(--text-on-dark);
+}
+
+.tracker .now .number {
+	background: var(--highlight);
+	border-color: var(--highlight);
+	color: var(--text-heading);
+}
+
+.tracker b {
+	display: block;
+	font-size: 1rem;
+}
+
+.tracker li span:not(.number) {
+	font-size: 0.9375rem;
+	color: var(--text-paragraph);
+}
+
+.next {
+	padding: 1.75rem;
+	border-radius: var(--radius-lg);
+	background: var(--bg-section);
+}
+
+.next h2 {
+	margin-bottom: 1rem;
+	font-size: 1.125rem;
+	font-weight: 800;
+	color: var(--text-heading);
+}
+
+.thanks {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1rem;
+	padding-block: 3.5rem 2rem;
+	text-align: center;
+}
+
+.thanks-animal {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.625rem;
+	margin-bottom: 0.5rem;
+}
+
+.thanks-animal .picture {
+	width: 10rem;
+	aspect-ratio: 1 / 1;
+	border-radius: 50%;
+}
+
+.thanks-animal .picture .drawing {
+	width: 70%;
+}
+
+.thanks-tick {
+	position: absolute;
+	right: 0;
+	top: 0.25rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.25rem;
+	height: 2.25rem;
+	border: 3px solid var(--bg-body);
+	border-radius: 50%;
+	background: var(--accent);
+	color: var(--text-on-dark);
+}
+
+.thanks-name {
+	font-size: 1rem;
+	font-weight: 700;
+	color: var(--text-heading);
+}
+
+.thanks h1 {
+	max-width: 22ch;
+	font-size: clamp(2rem, 4.4vw, 2.75rem);
+	font-weight: 800;
+	line-height: 1.15;
+	color: var(--text-heading);
+	text-wrap: balance;
+}
+
+.thanks>p {
+	max-width: 50ch;
+	font-size: 1.125rem;
+	color: var(--text-paragraph);
+}
+
+.thanks .next {
+	width: min(100%, 32rem);
+	margin-top: 0.75rem;
+	text-align: left;
+}

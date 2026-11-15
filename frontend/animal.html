@@ -4,49 +4,160 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>Eläin | Vaasan Eläinsuoja</title>
+		<meta
+			name="description"
+			content="Tutustu Vaasan Eläinsuojan kotia etsivään eläimeen ja hae adoptiota."
+		/>
+
+		<link rel="icon" href="images/favicon.svg" type="image/svg+xml" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
 			rel="stylesheet"
-			href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;700&display=swap"
+			href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap"
 		/>
 		<link rel="stylesheet" href="styles/style.css" />
 		<link rel="stylesheet" href="styles/animal.css" />
 	</head>
 	<body>
-		<header>
-			<h1>Vaasan Eläinsuoja</h1>
+		<header class="header">
+			<div class="container">
+				<a class="logo" href="index.html">
+					<svg width="38" height="38">
+						<use href="images/icons.svg#logo" />
+					</svg>
+					<span
+						>Vaasan Eläinsuoja<small>Kodittomien eläinten puolesta</small></span
+					>
+				</a>
+				<nav class="nav">
+					<a href="index.html#elaimet">Eläimet</a>
+					<a href="#yhteys">Yhteystiedot</a>
+				</nav>
+			</div>
 		</header>
 
-		<main>
-			<a class="back" href="index.html">← Takaisin eläimiin</a>
-			<p id="message">Ladataan...</p>
-			<article id="animal" class="animal-detail"></article>
+		<main id="sisalto">
+			<div class="container">
+				<nav class="breadcrumb">
+					<a href="index.html#elaimet">Eläimet</a>
+					<span>/</span>
+					<span id="crumb-name">Eläin</span>
+				</nav>
+
+				<p id="message" class="status-message">
+					Ladataan...
+				</p>
+				<article id="animal" class="profile"></article>
+			</div>
+
+			<section id="adopt-section" class="section section-alt" hidden>
+				<div class="container">
+					<form id="adopt-form" class="form-card" novalidate>
+						<h2 id="adopt-title">Hae adoptiota</h2>
+						<p>Vain nimi ja sähköposti ovat pakollisia.</p>
+
+						<div class="row">
+							<div class="field">
+								<label for="applicant_name">Nimi</label>
+								<input
+									id="applicant_name"
+									name="applicant_name"
+									type="text"
+									autocomplete="name"
+									required
+								/>
+								<span class="field-error" id="applicant_name-error"></span>
+							</div>
+							<div class="field">
+								<label for="email">Sähköposti</label>
+								<input
+									id="email"
+									name="email"
+									type="email"
+									autocomplete="email"
+									required
+								/>
+								<span class="field-error" id="email-error"></span>
+							</div>
+							<div class="field">
+								<label for="phone">Puhelin <span>(vapaaehtoinen)</span></label>
+								<input id="phone" name="phone" type="tel" autocomplete="tel" />
+							</div>
+						</div>
+
+						<div class="field">
+							<label for="message-field"
+								>Kerro itsestäsi ja kodistasi
+								<span>(vapaaehtoinen)</span></label
+							>
+							<div class="quick">
+								<button type="button">Kotona on lapsia</button>
+								<button type="button">Kotona on muita eläimiä</button>
+								<button type="button" data-group="asunto">
+									Asun kerrostalossa
+								</button>
+								<button type="button" data-group="asunto">
+									Asun omakotitalossa
+								</button>
+								<button type="button">Olen paljon kotona</button>
+							</div>
+							<textarea id="message-field" name="message" rows="4"></textarea>
+						</div>
+
+						<p id="form-error" class="form-error" hidden></p>
+						<div class="submit-row">
+							<button type="submit" class="button button-primary">
+								Lähetä hakemus
+							</button>
+							<p class="fine">
+								Hakemus ei sido sinua mihinkään. Vastaamme sähköpostilla, ja
+								käytämme tietojasi vain hakemuksen käsittelyyn.
+							</p>
+						</div>
+					</form>
+				</div>
+			</section>
+
+			<section id="similar-section" class="section" hidden>
+				<div class="container">
+					<div class="section-title">
+						<h2 id="similar-title">Muita eläimiä</h2>
+						<p>Hekin etsivät kotia.</p>
+					</div>
+					<div class="grid" id="similar"></div>
+				</div>
+			</section>
 		</main>
 
-		<section id="adopt-section" class="adopt" hidden>
-			<h2>Hae adoptiota</h2>
-			<form id="adopt-form">
-				<label
-					>Nimi *
-					<input type="text" name="applicant_name" required />
-				</label>
-				<label
-					>Sähköposti *
-					<input type="email" name="email" required />
-				</label>
-				<label
-					>Puhelin
-					<input type="tel" name="phone" />
-				</label>
-				<label
-					>Kerro itsestäsi ja kodistasi
-					<textarea name="message" rows="4"></textarea>
-				</label>
-				<p id="form-error" class="form-error" role="alert"></p>
-				<button type="submit" class="button">Lähetä hakemus</button>
-			</form>
-		</section>
+		<footer class="site-footer" id="yhteys">
+			<svg class="footer-cat" viewBox="0 0 64 64">
+				<use href="images/icons.svg#sitting-cat" />
+			</svg>
+			<div class="container">
+				<div class="footer-logo">
+					<svg width="56" height="56">
+						<use href="images/icons.svg#logo" />
+					</svg>
+				</div>
+				<div>
+					<h2>Vaasan Eläinsuoja</h2>
+					<p>
+						Pieni paikallinen eläinsuoja, joka etsii kodittomille kissoille ja
+						koirille uusia koteja.
+					</p>
+				</div>
+				<div>
+					<h2>Yhteystiedot</h2>
+					<ul>
+						<li>Lemmikkikatu 15, 65100 Vaasa</li>
+						<li>info@elainsuoja.fi</li>
+					</ul>
+				</div>
+			</div>
+		</footer>
 
+		<script src="scripts/common.js"></script>
 		<script src="scripts/animal.js"></script>
 	</body>
 </html>
