@@ -1,36 +1,46 @@
+const fs = require('node:fs');
 const path = require('node:path');
 
 require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
 
 const express = require('express');
 const cors = require('cors');
-const db = require('./database');
 const swaggerUi = require('swagger-ui-express');
 const yaml = require('js-yaml');
-const fs = require('node:fs');
+const db = require('./database');
+
+const PORT = 3000;
+const API_KEY = process.env.API_KEY;
+
+// Etsitään B:n osoite .env-tiedostosta tai käytetään oletusosoitetta
+const SERVER_B_URL = process.env.SERVER_B_URL || 'http://localhost:4000';
+
+const countAnimals = db.prepare('SELECT COUNT(*) AS count FROM animals');
+const allAnimals = db.prepare('SELECT * FROM animals');
+const findAnimal = db.prepare('SELECT * FROM animals WHERE id = ?');
+const findLikes = db.prepare('SELECT id, likes FROM animals WHERE id = ?');
+const addLike = db.prepare('UPDATE animals SET likes = likes + 1 WHERE id = ?');
+const removeLike = db.prepare(
+	'UPDATE animals SET likes = MAX(likes - 1, 0) WHERE id = ?',
+);
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-const PORT = 3000;
-
-const API_KEY = process.env.API_KEY;
-
-// Etsitään B:n osoite .env-tiedostosta tai käytetään oletusosoitetta
-const SERVER_B_URL = process.env.SERVER_B_URL || 'http://localhost:4000';
+function serverError(res, err) {
+	console.error(err);
+	res.status(500).json({ error: 'Palvelinvirhe' });
+}
 
 // A:n tila
 app.get('/health', (req, res) => {
 	try {
-		const result = db.prepare('SELECT COUNT(*) AS count FROM animals').get();
-		res
-			.status(200)
-			.json({ service: 'server-a', status: 'ok', animals: result.count });
+		const { count } = countAnimals.get();
+		res.status(200).json({ service: 'server-a', status: 'ok', animals: count });
 	} catch (err) {
-		console.error(err);
-		res.status(500).json({ error: 'Palvelinvirhe' });
+		serverError(res, err);
 	}
 });
 
@@ -43,10 +53,9 @@ app.get('/health/server-b', async (req, res) => {
 			throw new Error(`Server B vastasi: ${response.status}`);
 		}
 
-		const data = await response.json();
-		res.status(200).json(data);
+		res.status(200).json(await response.json());
 	} catch (err) {
-		console.error('GET /health/server-b error:', err.message);
+		console.error('GET /health/server-b:', err.message);
 		res.status(500).json({ error: 'Server B ei vastaa' });
 	}
 });
@@ -54,71 +63,41 @@ app.get('/health/server-b', async (req, res) => {
 // GET /animals
 app.get('/animals', (req, res) => {
 	try {
-		const animals = db.prepare('SELECT * FROM animals').all();
-		res.status(200).json(animals);
+		res.status(200).json(allAnimals.all());
 	} catch (err) {
-		console.error(err);
-		res.status(500).json({ error: 'Palvelinvirhe' });
+		serverError(res, err);
 	}
 });
 
 // GET /animals/:id
 app.get('/animals/:id', (req, res) => {
 	try {
-		const animal = db
-			.prepare('SELECT * FROM animals WHERE id = ?')
-			.get(req.params.id);
+		const animal = findAnimal.get(req.params.id);
 		if (!animal) {
 			return res.status(404).json({ error: 'Eläintä ei löytynyt' });
 		}
-		res.json(animal);
-	} catch (err) {
-		console.error(err);
-		res.status(500).json({ error: 'Palvelinvirhe' });
-	}
-});
-
-// POST /animals/:id/like
-app.post('/animals/:id/like', (req, res) => {
-	try {
-		const result = db
-			.prepare('UPDATE animals SET likes = likes + 1 WHERE id = ?')
-			.run(req.params.id);
-
-		if (result.changes === 0) {
-			return res.status(404).json({ error: 'Eläintä ei löytynyt' });
-		}
-
-		const animal = db
-			.prepare('SELECT id, likes FROM animals WHERE id = ?')
-			.get(req.params.id);
 		res.status(200).json(animal);
 	} catch (err) {
-		console.error('POST /animals/:id/like error:', err.message);
-		res.status(500).json({ error: 'Palvelinvirhe' });
+		serverError(res, err);
 	}
 });
 
-// DELETE /animals/:id/like
-app.delete('/animals/:id/like', (req, res) => {
-	try {
-		const result = db
-			.prepare('UPDATE animals SET likes = MAX(likes - 1, 0) WHERE id = ?')
-			.run(req.params.id);
-
-		if (result.changes === 0) {
-			return res.status(404).json({ error: 'Eläintä ei löytynyt' });
+function changeLikes(statement) {
+	return (req, res) => {
+		try {
+			const result = statement.run(req.params.id);
+			if (result.changes === 0) {
+				return res.status(404).json({ error: 'Eläintä ei löytynyt' });
+			}
+			res.status(200).json(findLikes.get(req.params.id));
+		} catch (err) {
+			serverError(res, err);
 		}
+	};
+}
 
-		const animal = db
-			.prepare('SELECT id, likes FROM animals WHERE id = ?')
-			.get(req.params.id);
-		res.status(200).json(animal);
-	} catch (err) {
-		console.error('DELETE /animals/:id/like error:', err.message);
-		res.status(500).json({ error: 'Palvelinvirhe' });
-	}
-});
+app.post('/animals/:id/like', changeLikes(addLike));
+app.delete('/animals/:id/like', changeLikes(removeLike));
 
 // POST /animals/:id/adopt
 app.post('/animals/:id/adopt', async (req, res) => {
@@ -129,10 +108,7 @@ app.post('/animals/:id/adopt', async (req, res) => {
 			return res.status(400).json({ error: 'Puutteelliset hakemuksen tiedot' });
 		}
 
-		const animal = db
-			.prepare('SELECT * FROM animals WHERE id = ?')
-			.get(req.params.id);
-
+		const animal = findAnimal.get(req.params.id);
 		if (!animal) {
 			return res.status(404).json({ error: 'Eläintä ei löytynyt' });
 		}
@@ -148,24 +124,27 @@ app.post('/animals/:id/adopt', async (req, res) => {
 				phone,
 				message,
 			}),
+		}).catch((err) => {
+			console.error('POST /animals/:id/adopt:', err.message);
+			return null;
 		});
+
+		if (!response) {
+			return res.status(503).json({ error: 'Server B ei ole käytettävissä' });
+		}
 
 		// Eläin on jo adoptoitu
 		if (response.status === 409) {
 			return res.status(409).json({ error: 'Eläin on jo adoptoitu' });
 		}
 
-		// Onko vastaus ok?
 		if (!response.ok) {
 			throw new Error(`Server B vastasi: ${response.status}`);
 		}
 
-		// JSON:iksi muuttaminen
-		const data = await response.json();
-		res.status(201).json(data);
+		res.status(201).json(await response.json());
 	} catch (err) {
-		console.error('POST /animals/:id/adopt error:', err.message);
-		res.status(500).json({ error: 'Palvelinvirhe' });
+		serverError(res, err);
 	}
 });
 
