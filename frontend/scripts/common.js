@@ -23,6 +23,11 @@ function lifeStage(age) {
 	return 'seniori';
 }
 
+function ageText(age) {
+	if (!lifeStage(age)) return '';
+	return age < 1 ? 'alle 1 v' : `${age} v`;
+}
+
 // Kuvauksen ensimmäinen lause korttiin
 function firstSentence(text) {
 	if (!text) return '';
@@ -46,7 +51,7 @@ function createFacts(animal) {
 	};
 
 	if (animal.breed) add('Rotu', animal.breed);
-	add('Ikä', lifeStage(animal.age) ? `${animal.age} v` : 'ei tiedossa');
+	add('Ikä', ageText(animal.age) || 'ei tiedossa');
 
 	return list;
 }
@@ -77,7 +82,7 @@ function icon(name, size, extraClass) {
 	return svg;
 }
 
-function createPicture(animal, withBadge = true) {
+function createPicture(animal) {
 	const picture = document.createElement('div');
 	picture.className = 'picture';
 	picture.style.background = tintFor(animal.id);
@@ -102,12 +107,6 @@ function createPicture(animal, withBadge = true) {
 		picture.appendChild(drawing());
 	}
 
-	if (withBadge && animal.status === 'adopted') {
-		const badge = document.createElement('span');
-		badge.className = 'badge';
-		badge.append(icon('home', 16), 'Varattu');
-		picture.appendChild(badge);
-	}
 	return picture;
 }
 
@@ -142,12 +141,17 @@ function createHeart(animal, withLabel) {
 	// Ei näytetä kun tykkäyksiä ei ole
 	let likes = Number(animal.likes) || 0;
 	const render = () => {
-		if (withLabel) {
-			count.textContent = likes > 0 ? `Tykkää · ${likes}` : 'Tykkää';
+		if (likes > 0) {
+			count.textContent = String(likes);
 		} else {
-			count.textContent = likes > 0 ? String(likes) : '';
+			count.textContent = withLabel ? 'Tykkää' : '';
 		}
 		button.classList.toggle('has-count', likes > 0);
+		button.setAttribute('aria-pressed', String(button.classList.contains('is-active')));
+		button.setAttribute(
+			'aria-label',
+			likes > 0 ? `Tykkää: ${animal.name}, ${likes} tykkäystä` : `Tykkää: ${animal.name}`,
+		);
 	};
 	render();
 
@@ -193,6 +197,37 @@ function createHeart(animal, withLabel) {
 	return button;
 }
 
+function createTag(animal) {
+	const tag = document.createElement('p');
+	tag.className = 'tag';
+
+	if (animal.status === 'adopted') {
+		const top = document.createElement('span');
+		top.className = 'tag-species';
+		top.textContent = 'Koti';
+		const bottom = document.createElement('span');
+		bottom.className = 'tag-age is-long';
+		bottom.textContent = 'löytyi';
+		tag.append(top, ' ', bottom);
+		return tag;
+	}
+
+	const species = document.createElement('span');
+	species.className = 'tag-species';
+	species.textContent = speciesName(animal.type);
+	tag.appendChild(species);
+
+	if (ageText(animal.age)) {
+		const age = document.createElement('span');
+		age.className = 'tag-age';
+		age.textContent = ageText(animal.age);
+		if (animal.age < 1) age.classList.add('is-long');
+		tag.append(' ', age);
+	}
+
+	return tag;
+}
+
 // Kortin luonti eläimelle
 function createCard(animal) {
 	const card = document.createElement('article');
@@ -209,7 +244,7 @@ function createCard(animal) {
 	link.textContent = animal.name;
 	title.appendChild(link);
 
-	body.append(title);
+	body.append(createTag(animal), title);
 
 	// Kuvauksen ensimmäinen lause lisätään korttiin
 	const line = firstSentence(animal.description);
@@ -219,6 +254,12 @@ function createCard(animal) {
 		desc.textContent = line;
 		body.appendChild(desc);
 	}
+
+	const more = document.createElement('span');
+	more.className = 'card-more';
+	more.setAttribute('aria-hidden', 'true');
+	more.append(icon('paw', 16), 'Katso lisää');
+	body.appendChild(more);
 
 	card.append(createPicture(animal), body, createHeart(animal, false));
 	return card;

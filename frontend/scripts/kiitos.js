@@ -28,7 +28,7 @@ function showThanks(animal) {
 		const tick = document.createElement('span');
 		tick.className = 'thanks-tick';
 		tick.appendChild(icon('check', 20));
-		box.replaceChildren(createPicture(animal, false), tick, caption);
+		box.replaceChildren(createPicture(animal), tick, caption);
 		box.hidden = false;
 	}
 }

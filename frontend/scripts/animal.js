@@ -87,7 +87,7 @@ function renderProfile(animal) {
 	const actions = document.createElement('div');
 	actions.className = 'profile-actions';
 
-	// Jos eläin on jo adoptoitu, näytetään viesti ja linkki muihin eläimiin
+	// Jos eläin on jo adoptoitu niin näytetään viesti ja linkki muihin eläimiin
 	if (adopted) {
 		const homed = document.createElement('div');
 		homed.className = 'homed';
@@ -104,7 +104,7 @@ function renderProfile(animal) {
 		const all = document.createElement('a');
 		all.className = 'button button-primary';
 		all.href = listUrl();
-		all.textContent = 'Katso muut eläimet';
+		all.textContent = 'Selaa kotia etsiviä';
 		actions.appendChild(all);
 	} else {
 		const apply = document.createElement('a');
@@ -152,7 +152,6 @@ async function loadSimilar(animal) {
 		const species = SPECIES[animal.type];
 		const title = document.getElementById('similar-title');
 		if (animal.status === 'adopted') {
-			// Varatun eläimen sivulla otsikko ei saa antaa ymmärtää, että se etsii yhä kotia
 			title.textContent = `Kotia etsivät ${species ? species.group : 'eläimet'}`;
 			title.nextElementSibling.hidden = true;
 		} else {
@@ -315,7 +314,7 @@ async function sendApplication(event) {
 				'Tämä eläin on jo saanut hakemuksen, joten uusia ei oteta vastaan.',
 				{
 					href: listUrl(),
-					label: 'Katso muut kotia etsivät eläimet',
+					label: 'Selaa kotia etsiviä',
 				},
 			);
 			locked = true;

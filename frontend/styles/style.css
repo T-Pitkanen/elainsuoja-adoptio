@@ -326,27 +326,6 @@ main {
 	filter: saturate(0.55);
 }
 
-.badge {
-	position: absolute;
-	left: 0.75rem;
-	top: 0.75rem;
-	display: inline-flex;
-	align-items: center;
-	gap: 0.375rem;
-	padding: 0.3125rem 0.75rem 0.3125rem 0.5625rem;
-	border-radius: var(--radius-sm);
-	background: var(--bg-card);
-	box-shadow: 0 0.1875rem 0.5rem rgba(74, 50, 56, 0.16);
-	color: var(--adopted-text);
-	font-size: 0.8125rem;
-	font-weight: 800;
-	rotate: -3deg;
-}
-
-.badge svg {
-	flex: none;
-}
-
 .card-body {
 	display: flex;
 	flex: 1;
@@ -378,6 +357,88 @@ main {
 	-webkit-line-clamp: 2;
 	font-size: 0.9375rem;
 	line-height: 1.5;
+}
+
+.tag {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 4.25rem;
+	height: 4.25rem;
+	margin: -2.75rem 0 0.375rem;
+	border: 0.1875rem solid var(--bg-card);
+	border-radius: 50%;
+	background: var(--highlight);
+	box-shadow: 0 0.25rem 0.625rem rgba(74, 50, 56, 0.18);
+	color: var(--text-heading);
+	line-height: 1.1;
+	rotate: -8deg;
+}
+
+.tag::before {
+	content: '';
+	position: absolute;
+	top: -0.8125rem;
+	left: 50%;
+	width: 0.75rem;
+	height: 0.75rem;
+	translate: -50% 0;
+	border: 0.1875rem solid var(--highlight-hover);
+	border-radius: 50%;
+}
+
+.tag-species {
+	font-size: 0.75rem;
+	font-weight: 700;
+}
+
+.tag-age {
+	font-size: 1.125rem;
+	font-weight: 800;
+	font-variant-numeric: tabular-nums;
+}
+
+.tag-age.is-long {
+	font-size: 0.8125rem;
+	white-space: nowrap;
+}
+
+.is-adopted .tag {
+	background: var(--accent);
+	color: var(--text-on-dark);
+}
+
+.is-adopted .tag::before {
+	border-color: var(--bg-hero);
+}
+
+.card-more {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4375rem;
+	margin-top: auto;
+	padding: 0.5rem 1rem 0.5rem 0.8125rem;
+	border: 0.09375rem solid var(--accent);
+	border-radius: var(--radius-sm);
+	color: var(--accent);
+	font-size: 0.875rem;
+	font-weight: 800;
+	transition:
+		background-color 0.2s ease,
+		color 0.2s ease;
+}
+
+.card-body > :nth-last-child(2) {
+	margin-bottom: 1rem;
+}
+
+.card:hover .card-more,
+.card:has(.card-link:focus-visible) .card-more {
+	background: var(--accent);
+	color: var(--text-on-dark);
 }
 
 .heart {
