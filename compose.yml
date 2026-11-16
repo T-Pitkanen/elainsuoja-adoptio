@@ -25,15 +25,11 @@ services:
     build: ./server-b
     ports:
       - '4000:4000'
-    # Lue API-avain .env-tiedostosta
     env_file: .env
-    # Asetetaan tietokannan polku ympäristömuuttujaksi
     environment:
       DB_PATH: /data/animals.db
-    # Liitetään tietokantadata konttiin. Sama volume kuin A:ssa.
     volumes:
       - db_data:/data
-    # B käynnistyy vasta, kun A:n healthcheck on ok, eli kun A on luonut tietokannan
     depends_on:
       server-a:
         condition: service_healthy

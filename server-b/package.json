@@ -1,7 +1,7 @@
 {
 	"name": "server-b",
 	"version": "1.0.0",
-	"description": "Adoptiopalvelu",
+	"description": "Vaasan Eläinsuoja",
 	"main": "server-b.js",
 	"scripts": {
 		"start": "node server-b.js",
