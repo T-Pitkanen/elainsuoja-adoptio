@@ -31,7 +31,7 @@ paths:
       responses:
         '200':
           description: Server B toimii
-        '500':
+        '503':
           description: Server B ei vastaa
 
   /animals:

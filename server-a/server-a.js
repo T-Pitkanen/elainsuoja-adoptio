@@ -29,6 +29,13 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use((err, req, res, next) => {
+	if (err.type === 'entity.parse.failed') {
+		return res.status(400).json({ error: 'Virheellinen JSON' });
+	}
+	next(err);
+});
+
 function serverError(res, err) {
 	console.error(err);
 	res.status(500).json({ error: 'Palvelinvirhe' });
@@ -56,7 +63,7 @@ app.get('/health/server-b', async (req, res) => {
 		res.status(200).json(await response.json());
 	} catch (err) {
 		console.error('GET /health/server-b:', err.message);
-		res.status(500).json({ error: 'Server B ei vastaa' });
+		res.status(503).json({ error: 'Server B ei vastaa' });
 	}
 });
 
