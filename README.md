@@ -18,6 +18,13 @@ selain ──> frontend (nginx, 8080)
 - **Server A** on julkinen REST API. Se hakee eläimet tietokannasta, käsittelee tykkäykset ja välittää adoptiohakemukset Server B:lle.
 - **Server B** tallentaa hakemuksen ja merkitsee eläimen varatuksi samassa transaktiossa. Se hyväksyy vain pyynnöt, joissa on oikea `X-API-Key`.
 
+## Projektin lataus
+
+```bash
+git clone https://github.com/T-Pitkanen/elainsuoja-adoptio.git
+cd elainsuoja-adoptio
+```
+
 ## Käynnistys Dockerilla
 
 1. Kopioi `.env.example` nimelle `.env`. Sen valmis avain toimii sellaisenaan.
@@ -36,13 +43,15 @@ Tietokanta on Dockerin `db_data`-volumessa, joten data säilyy uudelleenkäynnis
 
 ## Käynnistys ilman Dockeria
 
-Vaatii Node.js 22:n.
+Vaatii Node.js 22:n tai uudemman.
 
 ```bash
 cp .env.example .env
-cd server-a && npm install
-cd ../server-b && npm install
+cd server-a && npm install --ignore-scripts
+cd ../server-b && npm install --ignore-scripts
 ```
+
+`--ignore-scripts` estää tietokantakirjastoa `better-sqlite3` kääntämästä itseään, mikä vaatisi C++-kääntäjän. Kirjaston mukana tulee valmiiksi käännetty versio Windowsille, macOS:lle ja Linuxille.
 
 Käynnistä palvelimet omissa terminaaleissaan, Server A ensin, koska se luo tietokannan `data/animals.db` ja lisää testieläimet:
 
@@ -56,7 +65,9 @@ cd server-b
 node server-b.js
 ```
 
-Frontendin voi avata millä tahansa staattisella palvelimella, esimerkiksi:
+Frontendin saa helpoiten auki VS Coden [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) -laajennuksella. Valitse oikeasta alakulmasta **Go Live**. Sivu aukeaa osoitteeseen http://127.0.0.1:5500/frontend/index.html.
+
+Toimii myös millä tahansa muulla staattisella palvelimella, esimerkiksi:
 
 ```bash
 cd frontend
