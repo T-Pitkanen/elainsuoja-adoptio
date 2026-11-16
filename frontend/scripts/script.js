@@ -18,7 +18,7 @@ function readFilters() {
 	};
 }
 
-// Tallentaa suodattimet URL:iin ja sessionStorageen
+// Tallentaa suodattimet URL:iin ja sessionstorageen
 function saveFilters() {
 	const params = new URLSearchParams();
 	const typeKey = Object.keys(URL_TYPES).find(
@@ -128,15 +128,13 @@ function showNotice(title, text, button) {
 function showHeroDetails() {
 	const card = document.getElementById('newest');
 	const available = animals.filter((a) => a.status !== 'adopted');
-	const withPhoto = available.filter((a) => a.image_url);
-	const candidates = withPhoto.length > 0 ? withPhoto : available;
 
-	if (candidates.length === 0) {
+	if (available.length === 0) {
 		card.hidden = true;
 		return;
 	}
 
-	const newest = candidates.reduce((a, b) => (b.id > a.id ? b : a));
+	const newest = available.reduce((a, b) => (b.id > a.id ? b : a));
 	card.href = `animal.html?id=${encodeURIComponent(newest.id)}`;
 	card.querySelector('.picture').replaceWith(createPicture(newest));
 	card.querySelector('.newest-name').textContent = newest.name;
