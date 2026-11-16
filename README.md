@@ -93,7 +93,7 @@ Server B:llä on `GET /health` ja `POST /adoptions`. Jälkimmäistä kutsuu vain
 
 ## Testidata
 
-Server A lisää käynnistyessään 20 testieläintä, jos niitä ei vielä ole tietokannassa. Osa eläimistä on valmiiksi varattuja, ja kolmelta puuttuu kuva, jolloin sivulla näkyy piirros. Eläinten kuvat ovat kansiossa `frontend/images/animals` ja ne on haettu [Pexelsistä](https://www.pexels.com/) (Pexels-lisenssi, vapaa käyttö).
+Server A lisää käynnistyessään 22 testieläintä, jos niitä ei vielä ole tietokannassa. Osa eläimistä on valmiiksi varattuja, ja kolmelta puuttuu kuva, jolloin sivulla näkyy piirros. Eläinten kuvat ovat kansiossa `frontend/images/animals` ja ne on haettu [Pexelsistä](https://www.pexels.com/) (Pexels-lisenssi, vapaa käyttö).
 
 ## Hakemistorakenne
 

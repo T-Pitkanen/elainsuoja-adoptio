@@ -225,6 +225,24 @@ const seedAnimals = [
 		description:
 			'Puhelias seniorineiti, joka haluaa olla aina siellä missä ihmisetkin.',
 	},
+	{
+		name: 'Rusina',
+		image_url: 'images/animals/rusina.jpg',
+		type: 'cat',
+		age: 0,
+		breed: 'Maatiainen',
+		description:
+			'Pieni ja rohkea kissanpentu, joka nukahtaa leikin keskelle mihin tahansa.',
+	},
+	{
+		name: 'Nuppu',
+		image_url: 'images/animals/nuppu.jpg',
+		type: 'dog',
+		age: 0,
+		breed: 'Sekarotuinen',
+		description:
+			'Pehmeä koiranpentu, joka opettelee vasta sisäsiistiksi ja kaipaa kärsivällistä perhettä.',
+	},
 ];
 
 // Lisätään ne testieläimet joita ei vielä ole
